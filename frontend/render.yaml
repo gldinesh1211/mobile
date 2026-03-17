@@ -1,0 +1,16 @@
+services:
+  # Frontend Service
+  - type: web
+    name: gadgetra-frontend
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    buildFilter:
+      paths:
+        - frontend/**
+    healthCheckPath: /
+    autoDeploy: true
