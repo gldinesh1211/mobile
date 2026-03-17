@@ -2,13 +2,15 @@ services:
   # Frontend Service
   - type: web
     name: gadgetra-frontend
-    runtime: node
+    runtime: docker
     plan: free
-    buildCommand: npm run build
-    startCommand: npm start
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NEXT_PUBLIC_API_BASE_URL
+        value: https://your-backend-url.onrender.com/api
     buildFilter:
       paths:
         - frontend/**
