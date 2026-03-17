@@ -43,18 +43,16 @@ export const getAdminProducts = async () => {
 
 
 export const createProduct = async (
-
-  payload: { name: string; price: number },
-
+  payload: { name: string; price: number; description?: string; brand?: string; stock?: number; category?: string },
   token: string
-
 ) => {
-
   const formData = new FormData();
-
   formData.append("name", payload.name);
-
   formData.append("price", String(payload.price));
+  if (payload.description) formData.append("description", payload.description);
+  if (payload.brand) formData.append("brand", payload.brand);
+  if (payload.stock !== undefined) formData.append("stock", String(payload.stock));
+  if (payload.category) formData.append("category", payload.category);
 
 
 
