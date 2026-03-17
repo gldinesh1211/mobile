@@ -88,3 +88,49 @@ export const deleteProduct = async (id: string, token: string) => {
 
 
 
+export const updateProduct = async (
+  id: string,
+  payload: { name: string; price: number; description?: string; category?: string; stock?: number },
+  token: string
+) => {
+  const formData = new FormData();
+  formData.append("name", payload.name);
+  formData.append("price", String(payload.price));
+  if (payload.description) formData.append("description", payload.description);
+  if (payload.category) formData.append("category", payload.category);
+  if (payload.stock !== undefined) formData.append("stock", String(payload.stock));
+
+  const res = await api.put<Product>(`/products/${id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    }
+  });
+
+  return res.data;
+};
+
+
+
+export const uploadProductImages = async (
+  productId: string,
+  images: File[],
+  token: string
+) => {
+  const formData = new FormData();
+  images.forEach((image, index) => {
+    formData.append(`images`, image);
+  });
+
+  const res = await api.post(`/products/${productId}/images`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    }
+  });
+
+  return res.data;
+};
+
+
+
