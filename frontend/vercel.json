@@ -1,18 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
   "env": {
     "NEXT_PUBLIC_API_BASE_URL": "@api_base_url"
   },
-  "regions": ["sin1"],
-  "functions": {
-    "app/**/*.ts": {
-      "maxDuration": 30
-    }
-  }
+  "regions": ["sin1"]
 }
