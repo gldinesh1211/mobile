@@ -1,0 +1,11 @@
+# Copy and run these commands in your terminal (replace with your actual GitHub username):
+
+# Add GitHub remote repository (replace YOUR_USERNAME with your GitHub username)
+git remote add origin https://github.com/YOUR_USERNAME/gadgetra.git
+
+# Push to GitHub
+git branch -M main
+git push -u origin main
+
+# Alternative: If you want to use SSH instead of HTTPS:
+# git remote add origin git@github.com:YOUR_USERNAME/gadgetra.git
