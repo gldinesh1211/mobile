@@ -26,7 +26,7 @@ configurePassport();
 
 // CORS configuration for OAuth and API requests
 const FRONTEND_URL = process.env.FRONTEND_URL || "https://mobile-frontend-tau.vercel.app";
-const allowedOrigins = [FRONTEND_URL, "http://localhost:3000", "http://localhost:3001", "https://gadgetra-frontend.onrender.com", "https://mobile-frontend-tau.vercel.app"];
+const allowedOrigins = [FRONTEND_URL, "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "https://mobile-frontend-tau.vercel.app"];
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
