@@ -54,7 +54,7 @@ export const sendWelcomeEmail = async (userEmail, user) => {
               <h4>🛒 Ready to Shop?</h4>
               <p>Start exploring our amazing products and find exactly what you're looking for!</p>
               <div style="text-align: center; margin: 20px 0;">
-                <a href="http://localhost:3000/products" 
+                <a href="https://mobile-frontend-tau.vercel.app/products" 
                    style="background: #3399cc; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                   Start Shopping
                 </a>

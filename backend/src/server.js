@@ -25,23 +25,44 @@ connectDB();
 configurePassport();
 
 // CORS configuration for OAuth and API requests
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+const FRONTEND_URL = process.env.FRONTEND_URL || "https://mobile-frontend-tau.vercel.app";
 const allowedOrigins = [FRONTEND_URL, "http://localhost:3000", "http://localhost:3001", "https://gadgetra-frontend.onrender.com", "https://mobile-frontend-tau.vercel.app"];
 
-app.use(helmet());
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true);
+      
+      const allowedOrigins = [
+        "https://mobile-frontend-tau.vercel.app", 
+        "https://neoformative-glenda-myologic.ngrok-free.dev",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002"
+      ];
+      
+      if (allowedOrigins.includes(origin) || 
+          origin.match(/localhost:\d+$/) || 
+          origin.match(/\.loca\.lt$/) || 
+          origin.match(/\.ngrok-free\.app$/) ||
+          origin.match(/\.ngrok\.io$/) ||
+          origin.match(/\.vercel\.app$/)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error('Not allowed by CORS'));
       }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   })
 );
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

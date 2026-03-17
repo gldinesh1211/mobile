@@ -36,7 +36,7 @@ export const GOOGLE_CALLBACK_URL = AUTH_GOOGLE_CALLBACK_URL;
 export const APP_CONFIG = {
   port: PORT || 5000,
   nodeEnv: NODE_ENV || "development",
-  frontendUrl: FRONTEND_URL || "http://localhost:3000",
+  frontendUrl: FRONTEND_URL || "https://mobile-frontend-tau.vercel.app",
   sessionSecret: SESSION_SECRET || "gadgetra-session-secret-default",
   jwtExpiresIn: JWT_EXPIRES_IN || "7d"
 };

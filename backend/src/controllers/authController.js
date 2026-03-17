@@ -154,20 +154,20 @@ export const googleCallbackHandler = async (req, res) => {
     
     if (!user) {
       return res.redirect(
-        `${process.env.FRONTEND_URL || "http://localhost:3000"}/login?error=auth_failed`
+        `${process.env.FRONTEND_URL || "https://mobile-frontend-tau.vercel.app"}/login?error=auth_failed`
       );
     }
     
     const token = signToken(user);
     
     // Redirect to frontend callback page with token
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+    const frontendUrl = process.env.FRONTEND_URL || "https://mobile-frontend-tau.vercel.app";
     const callbackUrl = `${frontendUrl}/auth/google/callback?token=${encodeURIComponent(token)}`;
     
     return res.redirect(callbackUrl);
   } catch (err) {
     console.error("Google callback error:", err);
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+    const frontendUrl = process.env.FRONTEND_URL || "https://mobile-frontend-tau.vercel.app";
     return res.redirect(
       `${frontendUrl}/login?error=${encodeURIComponent(err.message)}`
     );
