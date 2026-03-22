@@ -8,16 +8,18 @@ import {
 } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
-  host: EMAIL_HOST || "smtp.gmail.com",
+  host: "smtp.gmail.com",
   port: 465,
   secure: true,
   auth: {
     user: EMAIL_USER?.trim(),
     pass: EMAIL_PASS?.trim(),
   },
-  connectionTimeout: 10000, // 10 seconds
+  connectionTimeout: 10000,
   greetingTimeout: 10000,
   socketTimeout: 10000,
+  // Force IPv4 to avoid ENETUNREACH issues on hosting providers like Render
+  family: 4, 
 });
 
 // Verify SMTP connection on startup
