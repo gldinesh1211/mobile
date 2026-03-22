@@ -17,11 +17,19 @@ export const createOrder = async (req, res) => {
     // Get user details for email
     const user = await User.findById(req.user._id);
     
-    // Send order confirmation email
+    // Send order confirmation email (non-blocking)
     if (user && user.email) {
-      // Populate product details for email
-      const populatedOrder = await Order.findById(order._id).populate('products.product');
-      await sendOrderConfirmationEmail(user.email, populatedOrder, user);
+      // Execute in background
+      (async () => {
+        try {
+          const populatedOrder = await Order.findById(order._id).populate('products.product');
+          if (populatedOrder) {
+            await sendOrderConfirmationEmail(user.email, populatedOrder, user);
+          }
+        } catch (emailError) {
+          console.error('Failed to send order email in background:', emailError);
+        }
+      })();
     }
 
     return res.status(201).json(order);

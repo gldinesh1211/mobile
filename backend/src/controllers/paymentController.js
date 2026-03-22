@@ -132,10 +132,12 @@ export const markOrderPaid = async (req, res) => {
     // Reduce stock and clear cart after successful payment
     await reduceStockAndClearCart(order);
 
-    // Send payment confirmation email
+    // Send payment confirmation email (non-blocking)
     const user = await User.findById(order.userId);
     if (user && user.email) {
-      await sendPaymentConfirmationEmail(user.email, order, user);
+      sendPaymentConfirmationEmail(user.email, order, user).catch((emailError) => {
+        console.error('Failed to send payment email in background:', emailError);
+      });
     }
 
     return res.json(order);
@@ -169,10 +171,12 @@ export const handleRazorpayWebhook = async (req, res) => {
       // Reduce stock and clear cart after successful payment
       await reduceStockAndClearCart(order);
 
-      // Send payment confirmation email
+      // Send payment confirmation email (non-blocking)
       const user = await User.findById(order.userId);
       if (user && user.email) {
-        await sendPaymentConfirmationEmail(user.email, order, user);
+        sendPaymentConfirmationEmail(user.email, order, user).catch((emailError) => {
+          console.error('Failed to send payment email in background:', emailError);
+        });
       }
     }
 
