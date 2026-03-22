@@ -8,7 +8,8 @@ import {
 } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  // Use IP directly to bypass IPv6/DNS issues on Render
+  host: "74.125.201.108", 
   port: 465,
   secure: true,
   auth: {
@@ -233,6 +234,7 @@ export const sendPaymentConfirmationEmail = async (userEmail, order, user) => {
 };
 
 export const testEmailConnection = async () => {
+  console.log("Starting testEmailConnection...");
   try {
     const mailOptions = {
       from: `"Gadgetra Store" <${EMAIL_USER}>`,
@@ -248,11 +250,11 @@ export const testEmailConnection = async () => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log('Test email sent successfully');
-    return true;
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Test email sent successfully:', info.messageId);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Email service test failed:', error);
-    return false;
+    throw error; // Throw so caller can see details
   }
 };
