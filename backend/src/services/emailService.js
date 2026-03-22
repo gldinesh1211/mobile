@@ -10,19 +10,23 @@ import {
 const transporter = nodemailer.createTransport({
   host: EMAIL_HOST || "smtp.gmail.com",
   port: 465,
-  secure: true, // true for 465, false for 587
+  secure: true,
   auth: {
     user: EMAIL_USER?.trim(),
     pass: EMAIL_PASS?.trim(),
   },
+  connectionTimeout: 10000, // 10 seconds
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
 // Verify SMTP connection on startup
+console.log("Attempting to verify SMTP connection...");
 transporter.verify((error, success) => {
   if (error) {
-    console.error("SMTP Connection Error:", error);
+    console.error("SMTP Connection Error Details:", error);
   } else {
-    console.log("SMTP Server is ready to take messages");
+    console.log("SMTP Server is ready to take messages ✅");
   }
 });
 

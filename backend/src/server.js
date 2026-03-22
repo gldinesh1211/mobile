@@ -94,6 +94,33 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
+
+// Public Email Debug Endpoint
+app.get("/debug/email", async (req, res) => {
+  const { testEmailConnection } = await import("./services/emailService.js");
+  const { EMAIL_USER, EMAIL_HOST } = await import("./config/env.js");
+  
+  console.log("Starting manual email debug test...");
+  try {
+    const success = await testEmailConnection();
+    res.json({
+      success,
+      config: {
+        host: EMAIL_HOST || "smtp.gmail.com",
+        user: EMAIL_USER ? `${EMAIL_USER.substring(0, 3)}...` : "MISSING",
+        port: 465,
+        secure: true
+      },
+      message: success ? "Connection successful!" : "Connection failed - check logs"
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      stack: error.stack
+    });
+  }
+});
 app.use("/api/admin", adminRoutes);
 
 app.use((err, req, res, next) => {
