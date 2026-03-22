@@ -9,11 +9,11 @@ import {
 
 const transporter = nodemailer.createTransport({
   host: EMAIL_HOST,
-  port: EMAIL_PORT,
-  secure: false, // true for 465, false for other ports
+  port: 465,
+  secure: true, // true for 465, false for 587
   auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS,
+    user: EMAIL_USER?.trim(),
+    pass: EMAIL_PASS?.trim(),
   },
 });
 
