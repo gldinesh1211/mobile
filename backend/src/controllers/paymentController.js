@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import Razorpay from "razorpay";
+import crypto from "crypto";
 import { Order } from "../models/Order.js";
 import { User } from "../models/User.js";
 import { Product } from "../models/Product.js";
@@ -148,8 +149,7 @@ export const handleRazorpayWebhook = async (req, res) => {
     const webhookSecret = RAZORPAY_KEY_SECRET;
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
-    // Verify webhook signature (in production, you should verify this)
-    const crypto = require('crypto');
+    // Verify signature
     const expectedSignature = crypto.createHmac('sha256', webhookSecret)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');

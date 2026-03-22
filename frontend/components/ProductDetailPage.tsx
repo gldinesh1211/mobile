@@ -6,6 +6,7 @@ import { getProductById } from "../services/productService";
 import type { Product } from "../services/types";
 import { addToCart } from "../services/cartService";
 import { formatPrice } from "../utils/formatPrice";
+import { resolveImageUrl } from "../utils/resolveImageUrl";
 
 export default function ProductDetailPage({ productId }: { productId: string }) {
   const [product, setProduct] = useState<Product | null>(null);
@@ -99,7 +100,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
             <div className="main-image-container mb-3">
               {images.length > 0 ? (
                 <Image
-                  src={images[selectedImage]?.url}
+                  src={resolveImageUrl(images[selectedImage]?.url)}
                   alt={product.name}
                   width={600}
                   height={600}
@@ -133,7 +134,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                     style={{ cursor: "pointer" }}
                   >
                     <Image
-                      src={image.url}
+                      src={resolveImageUrl(image.url)}
                       alt={`${product.name} - Image ${index + 1}`}
                       width={80}
                       height={80}

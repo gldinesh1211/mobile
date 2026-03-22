@@ -67,6 +67,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static("uploads"));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "gadgetra-session-secret-default",

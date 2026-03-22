@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "../services/types";
 import { formatPrice } from "../utils/formatPrice";
+import { resolveImageUrl } from "../utils/resolveImageUrl";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const mainImage = product.images?.[0]?.url;
+  const mainImage = resolveImageUrl(product.images?.[0]?.url);
   const hasStock = product.stock > 0;
   
   return (

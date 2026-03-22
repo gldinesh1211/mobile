@@ -162,7 +162,7 @@ export default function CheckoutPage() {
           
           // Test payment options
           const options = {
-            key: "rzp_test_RMKz5sso9Q16ay", // Test key
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_RMKz5sso9Q16ay", // Use env var with fallback
             amount: razorpayOrder.amount,
             currency: razorpayOrder.currency,
             name: "Gadgetra",

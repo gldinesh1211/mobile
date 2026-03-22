@@ -3,7 +3,8 @@ import {
   EMAIL_HOST,
   EMAIL_PORT,
   EMAIL_USER,
-  EMAIL_PASS
+  EMAIL_PASS,
+  APP_CONFIG
 } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
@@ -16,8 +17,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Verify SMTP connection on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("SMTP Connection Error:", error);
+  } else {
+    console.log("SMTP Server is ready to take messages");
+  }
+});
+
 export const sendWelcomeEmail = async (userEmail, user) => {
   try {
+    const frontendUrl = APP_CONFIG.frontendUrl;
     const mailOptions = {
       from: `"Gadgetra Store" <${EMAIL_USER}>`,
       to: userEmail,
@@ -54,7 +65,7 @@ export const sendWelcomeEmail = async (userEmail, user) => {
               <h4>🛒 Ready to Shop?</h4>
               <p>Start exploring our amazing products and find exactly what you're looking for!</p>
               <div style="text-align: center; margin: 20px 0;">
-                <a href="https://mobile-frontend-tau.vercel.app/products" 
+                <a href="${frontendUrl}/products" 
                    style="background: #3399cc; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                   Start Shopping
                 </a>
@@ -73,7 +84,7 @@ export const sendWelcomeEmail = async (userEmail, user) => {
           </div>
           
           <div style="background: #333; color: white; padding: 20px; text-align: center;">
-            <p>&copy; 2024 Gadgetra Store. All rights reserved.</p>
+            <p>&copy; ${new Date().getFullYear()} Gadgetra Store. All rights reserved.</p>
             <p>Need help? Contact us at support@gadgetra.com</p>
             <p>Follow us on social media for updates and special offers!</p>
           </div>
@@ -152,7 +163,7 @@ export const sendOrderConfirmationEmail = async (userEmail, order, user) => {
           </div>
           
           <div style="background: #333; color: white; padding: 20px; text-align: center;">
-            <p>&copy; 2024 Gadgetra Store. All rights reserved.</p>
+            <p>&copy; ${new Date().getFullYear()} Gadgetra Store. All rights reserved.</p>
             <p>Need help? Contact us at support@gadgetra.com</p>
           </div>
         </div>
@@ -201,7 +212,7 @@ export const sendPaymentConfirmationEmail = async (userEmail, order, user) => {
           </div>
           
           <div style="background: #333; color: white; padding: 20px; text-align: center;">
-            <p>&copy; 2024 Gadgetra Store. All rights reserved.</p>
+            <p>&copy; ${new Date().getFullYear()} Gadgetra Store. All rights reserved.</p>
             <p>Need help? Contact us at support@gadgetra.com</p>
           </div>
         </div>
